@@ -37,7 +37,7 @@ SECTIONS
   } >FLASH
 
 
-  _sidata = LOADADDR(.data); /* Address on ROM */
+  __idata_strat = LOADADDR(.data); /* Address on ROM */
 
   .data : 
   {
