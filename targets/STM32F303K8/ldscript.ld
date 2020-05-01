@@ -66,13 +66,13 @@ SECTIONS
         /* 1KiB heap */ 
         . = . + 1024 ;
         . = ALIGN(4);
-        _eheap = .;
+        __heap_end = .;
   }> RAM
 
   .stack : {
         __stack_end = .;
         /* 1KiB stack*/
-        __stack_end = _estack + 1024;
+        __stack_start = _estack + 1024;
   }> RAM
 
 }
