@@ -37,7 +37,7 @@ SECTIONS
   } >FLASH
 
 
-  __idata_strat = LOADADDR(.data); /* Address on ROM */
+  __idata_start = LOADADDR(.data); /* Address on ROM */
 
   .data : 
   {
@@ -62,7 +62,7 @@ SECTIONS
   } >RAM
 
   .heap : {
-        __heap_start= .;
+        __heap_start = .;
         /* 1KiB heap */ 
         . = . + 1024 ;
         . = ALIGN(4);
@@ -72,7 +72,7 @@ SECTIONS
   .stack : {
         __stack_end = .;
         /* 1KiB stack*/
-        __stack_start = _estack + 1024;
+        __stack_start = __stack_end + 1024;
   }> RAM
 
 }
