@@ -1,13 +1,14 @@
 .syntax unified
 .cpu cortex-m4
-.fpu softfvp
 .thumb
 .global _start
 
 .section .text.start
+_start:
     ldr sp,=__stack_start
     bl data_init
     bl bss_clear
+    bl systemInit
     bl main
 
 LoopForever:
@@ -29,7 +30,7 @@ data_init:
         cmp r1,r3
         beq 2f
         ldr r4,[r2]
-        str [r4],[r1]
+        str r4,[r1]
         adds r1,r1,#4
         adds r2,r2,#4
         b 1b
