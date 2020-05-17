@@ -5,21 +5,17 @@
 *PA_2=TX
 *PA_15=RX
 */
-
-void configureUSBSerial()
+int svc_handler(uint8_t o)
 {
- RCC->AHBENR |= (1 << 17);
- GPIOA->MODER = (0b10 << 2 * 2);
- GPIOA->MODER |= (0b10 << 2 * 15);
- GPIOA->AFRL = 0b0111 << (4 * 2);
- GPIOA->AFRH = 0b0111 << (4 * 8);
+ USART2->TDR = 'S';
+ return 0;
+}
 
- // Configure UART
- RCC->APB1ENR |= (0b1 << 17);
- USART2->BRR = 8000000L / 115200L;
- USART2->CR1 |= (0b1 << 3); // Transmitter enable
- USART2->CR1 |= (0b1 << 2); // Receiver enable
- USART2->CR1 |= (0b1 << 0); //Enable USART
+int usart2_handler(uint8_t o)
+{
+ NVIC->ICPR[1] &= ~(uint32_t)(0b1 << 6);
+ USART2->TDR = USART2->RDR;
+ return 0;
 }
 
 int main(void)
@@ -31,10 +27,7 @@ int main(void)
  GPIOB->OTYPER = 0x0000;         // All-push pull
  GPIOB->PUPDR = 0x000000000;     // No pullup-pulldown
 
- configureUSBSerial();
-
  int i = 1;
-
  while (1)
  {
   if (i > 500000)
@@ -49,8 +42,6 @@ int main(void)
    {
     GPIOB->ODR |= (1 << 3);
    }
-
-   USART2->TDR = 'A';
   }
   i++;
  }
