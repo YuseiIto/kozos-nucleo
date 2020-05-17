@@ -1,3 +1,4 @@
+#pragma once
 #include <stdint.h>
 #include "addr.h"
 #include "regDef.h"
@@ -22,7 +23,7 @@ int configureUSBSerial(void)
   // Configure UART
   RCC->APB1ENR |= (0b1 << 17);
   USART2->BRR = 8000000L / 115200L;
-  //USART2->CR1 |= (0b1 << 7); // TX interrupt
+  USART2->CR1 |= (0b1 << 6); // TX interrupt
   USART2->CR1 |= (0b1 << 5); // RX interrupt
   USART2->CR1 |= (0b1 << 3); // Transmitter enable
   USART2->CR1 |= (0b1 << 2); // Receiver enable
