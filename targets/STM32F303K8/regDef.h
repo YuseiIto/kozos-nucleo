@@ -46,3 +46,41 @@ typedef struct
   volatile uint32_t CFGR2;
   volatile uint32_t CFGR3;
 } RCC_t;
+
+typedef struct
+{
+  volatile uint32_t CCR;
+  volatile uint32_t CNDTR;
+  volatile uint32_t CPAR;
+  volatile uint32_t CMAR;
+} DMA_Channel_t;
+
+typedef struct
+{
+  volatile uint32_t ISR;
+  volatile uint32_t IFCR;
+  DMA_Channel_t CH1;
+  DMA_Channel_t CH2;
+  DMA_Channel_t CH3;
+  DMA_Channel_t CH4;
+  DMA_Channel_t CH5;
+  DMA_Channel_t CH6;
+  DMA_Channel_t CH7;
+} DMA_t;
+
+typedef struct
+{
+  volatile uint32_t ISER[8]; /*!< Offset: 0x000 (R/W)  Interrupt Set Enable Register */
+  uint32_t RESERVED0[24];
+  volatile uint32_t ICER[8]; /*!< Offset: 0x080 (R/W)  Interrupt Clear Enable Register */
+  uint32_t RESERVED1[24];
+  volatile uint32_t ISPR[8]; /*!< Offset: 0x100 (R/W)  Interrupt Set Pending Register */
+  uint32_t RESERVED2[24];
+  volatile uint32_t ICPR[8]; /*!< Offset: 0x180 (R/W)  Interrupt Clear Pending Register */
+  uint32_t RESERVED3[24];
+  volatile uint32_t IABR[8]; /*!< Offset: 0x200 (R/W)  Interrupt Active bit Register */
+  uint32_t RESERVED4[56];
+  volatile uint8_t IP[240]; /*!< Offset: 0x300 (R/W)  Interrupt Priority Register (8Bit wide) */
+  uint32_t RESERVED5[644];
+  volatile uint32_t STIR; /*!< Offset: 0xE00 ( /W)  Software Trigger Interrupt Register */
+} NVIC_t;
