@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "targets/STM32F303K8/system.h"
+#include "terminal.h"
 
 /*
 *PA_2=TX
@@ -11,22 +12,15 @@ int svc_handler(uint8_t o)
  return 0;
 }
 
-int usart2_handler(uint8_t o)
-{
- NVIC->ICPR[1] &= ~(uint32_t)(0b1 << 6);
- USART2->TDR = USART2->RDR;
- return 0;
-}
-
 int main(void)
 {
 
+ ringBuffer_init(&buf);
  // Configure Blink
  RCC->AHBENR |= (1 << 18);
  GPIOB->MODER = (0b01 << 2 * 3); // Set '01' to GPIOB port 3
  GPIOB->OTYPER = 0x0000;         // All-push pull
  GPIOB->PUPDR = 0x000000000;     // No pullup-pulldown
-
  int i = 1;
  while (1)
  {
@@ -40,6 +34,7 @@ int main(void)
    }
    else
    {
+    putstr("Hello,World", 11);
     GPIOB->ODR |= (1 << 3);
    }
   }
