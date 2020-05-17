@@ -24,7 +24,7 @@ typedef struct
  ringBuffer_state_t state;
 } ringBuffer_t;
 
-void get_buffer_state(ringBuffer_t *buf)
+ringBuffer_state_t get_buffer_state(ringBuffer_t *buf)
 {
  if (buf->head == buf->tail - 1 || (buf->head == buf->length - 1 && buf->tail == 0))
  {
@@ -38,6 +38,8 @@ void get_buffer_state(ringBuffer_t *buf)
  {
   buf->state = queued;
  }
+
+ return buf->state;
 }
 
 void ringBuffer_init(ringBuffer_t *buf)
