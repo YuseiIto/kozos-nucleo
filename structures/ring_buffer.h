@@ -24,7 +24,7 @@ typedef struct
  ringBuffer_state_t state;
 } ringBuffer_t;
 
-void evaluateState(ringBuffer_t *buf)
+void get_buffer_state(ringBuffer_t *buf)
 {
  if (buf->read_index == buf->write_index - 1 || (buf->read_index == buf->length - 1 && buf->write_index == 0))
  {
@@ -46,19 +46,19 @@ void ringBuffer_init(ringBuffer_t *buf)
  buf->read_index = 0;
  buf->write_index = 1;
 
- evaluateState(buf);
+ get_buffer_state(buf);
 }
 
 ringBuffer_result_t push(ringBuffer_t *buf, uint8_t data)
 {
- evaluateState(buf);
+ get_buffer_state(buf);
  if (buf->state < full)
  {
   buf->data[buf->write_index] = data;
   buf->write_index++;
   buf->write_index %= buf->length;
 
-  evaluateState(buf);
+  get_buffer_state(buf);
 
   return OK;
  }
@@ -71,14 +71,14 @@ ringBuffer_result_t push(ringBuffer_t *buf, uint8_t data)
 
 ringBuffer_result_t pop(ringBuffer_t *buf, uint8_t *res)
 {
- evaluateState(buf);
+ get_buffer_state(buf);
  if (buf->state > empty)
  {
   buf->read_index++;
   buf->read_index %= buf->length;
   *res = buf->data[buf->read_index];
   buf->data[buf->read_index] = 0x00;
-  evaluateState(buf);
+  get_buffer_state(buf);
   return OK;
  }
 
