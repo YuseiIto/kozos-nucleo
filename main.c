@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include "targets/STM32F303K8/system.h"
-#include "terminal.h"
+#include "lib.h"
+#include "usart.h"
 
 /*
 *PA_2=TX
@@ -24,7 +25,7 @@ int main(void)
  int i = 1;
  while (1)
  {
-  if (i > 500000)
+  if (i > 5000)
   {
    i = 0;
 
@@ -34,7 +35,7 @@ int main(void)
    }
    else
    {
-    putstr("Hello,World", 11);
+    putstr("Hello,World");
     GPIOB->ODR |= (1 << 3);
    }
   }
